@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+		<script
+			src="https://kit.fontawesome.com/9ce7395cf7.js"
+			crossorigin="anonymous"
+		></script>
+	</head>
+	<body class="container">
+		<h2>Title : <%= article.title %></h2>
+		<h2>Description : <%= article.description %></h2>
+		<h2>Author : <%= article.author %></h2>
+		<h3>Tags :</h3>
+		<h2>
+			<% article.tags.forEach(t => { %>
+			<p><%= t %></p>
+			<% }) %>
+		</h2>
+		<i class="fas fa-thumbs-up thumb increment"></i>
+		<span class="span"><%= article.likes%></span>
+		<i class="fas fa-thumbs-down thumb decrement"></i>
+		<a href="/articles/"> HOME</a>
+		<a href="/articles/<%= article.id%>/edit">EDIT</a>
+		<a href="/articles/<%= article.id%>/delete">DELETE</a>
+		<style>
+			a {
+				text-decoration: none;
+				margin-right: 24px;
+			}
+			.thumb {
+				font-size: 24px;
+				color: teal;
+				cursor: pointer;
+				margin-right: 24px;
+			}
+			.container {
+				max-width: 700px;
+				margin: 0 auto;
+				display: block;
+				padding: 12px 0;
+				text-align: center;
+			}
+			span {
+				font-size: 22px;
+				margin-right: 24px;
+			}
+		</style>
+	</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<form action="/articles/<%= article.id%>" method="POST">
+			<input
+				type="text"
+				name="title"
+				placeholder="Title"
+				value="<%= article.title %>"
+			/>
+			<input
+				type="text"
+				name="description"
+				placeholder="Description"
+				value="<%= article.description %>"
+			/>
+			<input
+				type="text"
+				name="author"
+				placeholder="Author"
+				value="<%= article.author %>"
+			/>
+			<input
+				type="text"
+				name="tags"
+				placeholder="Tags ( Separated by comma )"
+				value="<%= article.tags %>"
+			/>
+			<input type="submit" value="Update Article" />
+		</form>
+	</body>
+</html>

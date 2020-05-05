@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body class="container">
+		<h2>Articles List</h2>
+    	<% articles.forEach(article => { %>
+    	<section>
+    	  	<h5>Title</h5>
+			  <a href="/articles/<%= article.id %>"><h3><%= article.title %></h4>
+			  </a>
+			<h5><%= article.likes%> <span>likes</span></h5>
+    	  <% }) %>
+    	  <a class="padding" href="/articles/new">Post Article</a>
+    	</section>
+    	<style>
+			a {
+				text-decoration: none;
+			}
+			.padding {
+				margin-left: 32px;
+				margin-top: 44px;
+				background-color: aqua;
+				border: 1px solid black;
+				padding: 8px;
+				border-radius: 12px;
+			}
+    	  	.container {
+    	    	max-width: 440px;
+    	    	margin: 0 auto;
+    	    	display: block;
+    	    	padding: 12px 0;
+				text-align: center;
+    	  	}
+    	  	h3,
+    	  	h4 {
+    	  	  	display: inline;
+				text-align: center;
+    	  	}
+			span {
+				margin-left: 12px;	
+			}
+    	</style>
+	</body>
+</html>
