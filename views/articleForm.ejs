@@ -1,21 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Document</title>
-	</head>
-	<body>
-		<form action="/articles/new" method="POST">
-			<input type="text" name="title" placeholder="Title" />
-			<input type="text" name="description" placeholder="Desctiption" />
-			<input type="text" name="author" placeholder="Author" />
-			<input
-				type="text"
-				name="tags"
-				placeholder="Tags ( Separated by comma )"
-			/>
-			<input type="submit" value="Create User" />
-		</form>
-	</body>
-</html>
+<% include partials/header %>
+<h1>Write New Article</h1>
+<form action="/articles/new" method="POST">
+	<input type="text" name="title" placeholder="Title" />
+	<input type="text" name="description" placeholder="Desctiption" />
+	<input type="text" name="author" placeholder="Author" />
+	<input type="text" name="tags" placeholder="Tags" />
+	<div>
+		<input class="design" type="submit" value="Submit Article" />
+	</div>
+</form>
+<% include partials/footer %>

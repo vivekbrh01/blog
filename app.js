@@ -11,7 +11,6 @@ var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var articlesRouter = require("./routes/articles");
 
-
 // Connect to database
 mongoose.connect(
 	"mongodb://localhost/blog",
@@ -55,5 +54,5 @@ app.use(function (err, req, res, next) {
 	res.render("error");
 });
 
-app.listen(3001, () => {});
+// app.listen(3001, () => {});
 module.exports = app;

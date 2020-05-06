@@ -24,7 +24,11 @@ const articleSchema = new Schema(
 			type: Number,
 			default: 0,
 		},
-		tags: [String],
+		tags: [ String ],
+		comments: [ {
+			type: Schema.Types.ObjectId,
+			ref: "Comment"
+		}]
 	},
 	{
 		timestamps: true,

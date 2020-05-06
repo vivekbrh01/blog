@@ -1,52 +1,62 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Document</title>
-		<script
-			src="https://kit.fontawesome.com/9ce7395cf7.js"
-			crossorigin="anonymous"
-		></script>
-	</head>
-	<body class="container">
-		<h2>Title : <%= article.title %></h2>
-		<h2>Description : <%= article.description %></h2>
-		<h2>Author : <%= article.author %></h2>
-		<h3>Tags :</h3>
-		<h2>
-			<% article.tags.forEach(t => { %>
-			<p><%= t %></p>
-			<% }) %>
-		</h2>
+<% include partials/header %>
+
+<h1><%= article.title %></h1>
+<h3>Description : <%= article.description %></h3>
+<h3>Author : <%= article.author %></h3>
+<div>
+	<h4 class="tags">Tags :</h4>
+	<h4 class="tags">
+		<% article.tags.forEach(t => { %>
+		<p class="tags"><%= t %></p>
+		<% }) %>
+	</h4>
+</div>
+
+<% article.comments.forEach( c => { %>
+<p class="comment"><%= c.content %></p>
+<div>
+	<a href="/articles/<%= article.id %>/comments/<%= c.id%>/edit">
+		<input class="articleEditWrapper" type="submit" value="Edit Comment" />
+	</a>
+	<a href="/articles/<%= article.id %>/comments/<%= c.id%>/delete">
+		<input class="articleEditWrapper" type="submit" value="Delete Comment" />
+	</a>
+	<p class="commentBy articleEditWrapper">Comment Made By : <%= c.author %></p>
+</div>
+
+<% }) %>
+<form action="/articles/<%= article.id %>/comments" method="POST">
+	<input
+		class="articleDetailsInput"
+		type="text"
+		name="content"
+		placeholder="Add comment.."
+	/>
+	<input
+		class="articleDetailsInput"
+		type="text"
+		name="author"
+		placeholder="Author"
+	/>
+	<input class="articleDetailsInput" type="submit" value="Add Comment" />
+</form>
+<div class="articleDetailsWrapper">
+	<a href="/articles/<%= article.id %>/likes">
 		<i class="fas fa-thumbs-up thumb increment"></i>
-		<span class="span"><%= article.likes%></span>
+	</a>
+	<span class="span"><%= article.likes%></span>
+	<a href="/articles/<%= article.id %>/dislikes">
 		<i class="fas fa-thumbs-down thumb decrement"></i>
-		<a href="/articles/"> HOME</a>
-		<a href="/articles/<%= article.id%>/edit">EDIT</a>
-		<a href="/articles/<%= article.id%>/delete">DELETE</a>
-		<style>
-			a {
-				text-decoration: none;
-				margin-right: 24px;
-			}
-			.thumb {
-				font-size: 24px;
-				color: teal;
-				cursor: pointer;
-				margin-right: 24px;
-			}
-			.container {
-				max-width: 700px;
-				margin: 0 auto;
-				display: block;
-				padding: 12px 0;
-				text-align: center;
-			}
-			span {
-				font-size: 22px;
-				margin-right: 24px;
-			}
-		</style>
-	</body>
-</html>
+	</a>
+</div>
+<div>
+	<a href="/articles/"> <h5 class="articleEditWrapper">HOME</h5> </a>
+	<a href="/articles/<%= article.id%>/edit">
+		<h5 class="articleEditWrapper">EDIT</h5>
+	</a>
+	<a href="/articles/<%= article.id%>/delete">
+		<h5 class="articleEditWrapper">DELETE</h5>
+	</a>
+</div>
+
+<% include partials/footer %>

@@ -1,0 +1,20 @@
+<% include partials/header %>
+<form
+	action="/articles/<%= comment.articleId %>/comments/<%= comment.id %>"
+	method="POST"
+>
+	<input
+		type="text"
+		name="content"
+		placeholder="Change comment.."
+		value="<%= comment.content %>"
+	/>
+	<input
+		type="text"
+		name="author"
+		placeholder="Author"
+		value="<%= comment.author %>"
+	/>
+	<input type="submit" value="Update Comment" />
+</form>
+<% include partials/footer %>
