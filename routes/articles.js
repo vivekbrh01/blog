@@ -34,7 +34,7 @@ router.get("/", (req, res, next) => {
 	});
 });
 
-// Get a single user form database
+// Get a single article form database
 router.get("/:articleId", (req, res, next) => {
 	let articleId = req.params.articleId;
 	Article.findById(articleId)
@@ -47,6 +47,7 @@ router.get("/:articleId", (req, res, next) => {
 		});
 });
 
+//Creating a comment
 router.post("/:articleId/comments", (req, res) => {
 	var articleId = req.params.articleId;
 	req.body.articleId = articleId;
@@ -65,6 +66,7 @@ router.post("/:articleId/comments", (req, res) => {
 		);
 	});
 });
+
 //Comment edit form
 router.get("/:articleId/comments/:commentId/edit", (req, res, next) => {
 	var commentId = req.params.commentId;
@@ -84,9 +86,7 @@ router.get("/:articleId/comments/:commentId/delete", (req, res, next) => {
 			articleId,
 			{ $pull: { comments: commentId } },
 			(err, updatedAticle) => {
-				if (err) {
-					return next(err);
-				}
+				if (err) return next(err);
 				res.redirect(`/articles/${articleId}`);
 			}
 		);
