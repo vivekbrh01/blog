@@ -153,17 +153,15 @@ router.post("/:articleId/comments", (req, res) => {
 });
 
 // Delete a user
-router.delete("/:id", (req, res) => {
-	Article.findByIdAndDelete(req.params.id, (err, articleDeleted) => {
+router.get("/:articleId/delete", (req, res) => {
+	var articleId = req.params.articleId;
+	Article.findByIdAndDelete(articleId, (err, articleDeleted) => {
 		if (err) return next(err);
-
-		res.send(articleDeleted.title + "Deleted");
-	});
-});
-
-router.get("/:id/delete", (req, res) => {
-	Article.findByIdAndRemove(req.params.id, (err, article) => {
-		res.redirect("/articles/");
+		Comment.deleteMany({ articleId }, (err, deletedMessage) => {
+			if (err) next(err);
+			console.log(err, deletedMessage);
+			res.redirect("/articles");
+		});
 	});
 });
 
