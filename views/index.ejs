@@ -1,4 +1,13 @@
 <% include partials/header %>
-<h1><%= title %></h1>
-<p>Welcome to <%= title %></p>
+<section class="home-section">
+	<h1 class="home-heading">Home Page</h1>
+	<form action="/routes/users">
+		<a href="/users/signup">
+			<input class="home-input" type="text" value="Click To Sign Up" />
+		</a>
+		<a href="/users/login">
+			<input class="home-input" type="text" value="Click To Login" />
+		</a>
+	</form>
+</section>
 <% include partials/footer %>

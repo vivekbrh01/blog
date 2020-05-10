@@ -98,27 +98,38 @@ router.post("/:articleId/comments/:commentId", (req, res, next) => {
 	var articleId = req.params.articleId;
 	var commentId = req.params.commentId;
 	console.log(req.body);
-	Comment.findByIdAndUpdate(commentId, req.body, (err, updatedComment) => {
+	Comment.findByIdAndUpdate(
+		commentId,
+		{ runValidators: true },
+		req.body,
+		(err, updatedComment) => {
+			if (err) return next(err);
+			res.redirect(`/articles/${articleId}`);
+		}
+	);
+});
+
+// Update Article form
+router.get("/:id/edit", (req, res) => {
+	Article.findById(req.params.id, (err, article) => {
 		if (err) return next(err);
-		res.redirect(`/articles/${articleId}`);
+		res.render("updateArticleForm", { article });
 	});
 });
 
 // Display updated data
 router.post("/:articleId", (req, res, next) => {
 	let id = req.params.articleId;
-	Article.findByIdAndUpdate(id, req.body, { new: true }, (err, article) => {
-		if (err) return next(err);
-		res.render("articleDetails", { article });
-	});
-});
-
-// Update form
-router.get("/:id/edit", (req, res) => {
-	Article.findById(req.params.id, (err, article) => {
-		if (err) return next(err);
-		res.render("updateArticleForm", { article });
-	});
+	Article.findByIdAndUpdate(
+		id,
+		req.body,
+		{ runValidators: true },
+		{ new: true },
+		(err, article) => {
+			if (err) return next(err);
+			res.render("articleDetails", { article });
+		}
+	);
 });
 
 // Likes and Dislikes
@@ -152,7 +163,7 @@ router.post("/:articleId/comments", (req, res) => {
 	console.log(req.body);
 });
 
-// Delete a user
+// Delete a Article
 router.get("/:articleId/delete", (req, res) => {
 	var articleId = req.params.articleId;
 	Article.findByIdAndDelete(articleId, (err, articleDeleted) => {

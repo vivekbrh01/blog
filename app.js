@@ -5,12 +5,15 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var mongoose = require("mongoose");
+var session = require("express-session");
+var flash = require("connect-flash");
+var MongoStore = require("connect-mongo")(session);
 
 //Require router files
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var articlesRouter = require("./routes/articles");
-var commentsRouter = require("./routes/comments");
+// var commentsRouter = require("./routes/comments");
 
 // Connect to database
 mongoose.connect(
@@ -33,6 +36,22 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+
+app.use(
+	session({
+		secret: "keyboard cat",
+		resave: true,
+		saveUninitialized: true,
+		store: new MongoStore({ mongooseConnection: mongoose.connection }),
+	})
+);
+
+app.use(flash());
+
+app.get('/', (req, res) => {
+  req.flash('message', 'This is a message from the "/" endpoint');
+  res.redirect('/contact');
+});
 
 //Routing middlewares
 app.use("/", indexRouter);
