@@ -31,9 +31,9 @@ router.post("/login", (req, res, next) => {
 	User.findOne({ email }, (err, user) => {
 		if (err) return next(err);
 		if (!user) {
-			console.log("Worng email");
+			console.log("Wrong email");
 			// Use flash message
-			res.send(req.flash("message"));
+			// res.send(req.flash("message"));
 			return res.redirect("/users/login");
 		}
 		// verify password

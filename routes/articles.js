@@ -1,12 +1,23 @@
 const express = require("express");
 const router = express.Router();
 const commentRouter = require("./comments");
+const auth = require("../middlewares/auth");
 
 //Require Models
 const Article = require("../models/article");
 const Comment = require("../models/comment");
 
 //Routes
+
+// List all articles form database
+router.get("/", (req, res, next) => {
+	Article.find({}, (err, listArticles) => {
+		if (err) return next(err);
+		res.render("articles", { articles: listArticles });
+	});
+});
+
+router.use();
 
 // Add form
 router.get("/new", (req, res) => {
@@ -23,14 +34,6 @@ router.post("/new", (req, res, next) => {
 		if (err) return next(err);
 		//sending response to the client
 		res.redirect("/articles");
-	});
-});
-
-// List all articles form database
-router.get("/", (req, res, next) => {
-	Article.find({}, (err, listArticles) => {
-		if (err) return next(err);
-		res.render("articles", { articles: listArticles });
 	});
 });
 
