@@ -1,5 +1,5 @@
 <% include partials/header %>
-<h1>Write New Article</h1>
+<h1>New Article</h1>
 <form action="/articles/new" method="POST">
 	<input type="text" name="title" placeholder="Title" />
 	<textarea
@@ -8,7 +8,6 @@
 		rows="20"
 		placeholder="Description"
 	></textarea>
-	<input type="text" name="author" placeholder="Author" />
 	<input type="text" name="tags" placeholder="Tags" />
 	<div>
 		<input class="design" type="submit" value="Submit Article" />

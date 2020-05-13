@@ -23,6 +23,7 @@
 	</a>
 	<p class="commentBy articleEditWrapper">Comment Made By : <%= c.author %></p>
 </div>
+<img src="../public/data/uploads <%= c.author.avatar %>" alt="Avatar" />
 
 <% }) %>
 <form action="/articles/<%= article.id %>/comments" method="POST">

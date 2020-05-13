@@ -18,7 +18,11 @@
 			<h1>SignUp For NodeJS</h1>
 			<div class="main-agileinfo">
 				<div class="agileits-top">
-					<form action="/users/signup" method="POST">
+					<form
+						action="/users/signup"
+						enctype="multipart/form-data"
+						method="POST"
+					>
 						<h2>Name</h2>
 						<input class="text" type="text" name="name" placeholder="Name" />
 						<h2>Email</h2>
@@ -35,6 +39,7 @@
 							name="password"
 							placeholder="Password"
 						/>
+						<input type="file" class="form-control-file" name="avatar" />
 						<div class="wthree-text">
 							<div class="clear"></div>
 						</div>

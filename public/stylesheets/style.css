@@ -1065,8 +1065,13 @@ input.checkbox:checked:after {
 	margin: 0 auto;
 }
 .home-heading {
-	margin: 70px;
+	margin: 20px;
 	text-align: center;
+	font-size: 24px;
+}
+.home-heading span {
+	font-size: 32px;
+	color: rgb(231, 44, 44);
 }
 .home-input {
 	cursor: pointer;

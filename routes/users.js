@@ -1,6 +1,8 @@
 var express = require("express");
 var router = express.Router();
 var User = require("../models/user");
+var multer = require("multer");
+var upload = multer({ dest: "./public/data/uploads/" });
 
 /* GET users listing. */
 // router.get("/", function (req, res, next) {
@@ -15,7 +17,11 @@ router.get("/signup", function (req, res) {
 	res.render("signup");
 });
 
-router.post("/signup", (req, res, next) => {
+router.post("/signup", upload.single("avatar"), (req, res, next) => {
+	console.log(req.file);
+	if (req.file) {
+		req.body.avatar = req.file.filename;
+	}
 	User.create(req.body, (err, createdUser) => {
 		if (err) return next(err);
 		res.redirect("/users/login");
@@ -47,8 +53,14 @@ router.post("/login", (req, res, next) => {
 		// session && cookie
 		req.session.userId = user.id;
 		console.log("logged in");
-		res.redirect("../articles");
+		// res.redirect("../articles");
+		res.redirect("/");
 	});
 });
 
+router.get("/logout", (req, res) => {
+	delete req.session.userId;
+	res.clearCookie("connect.sid");
+	res.redirect("/");
+});
 module.exports = router;

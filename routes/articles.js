@@ -17,7 +17,8 @@ router.get("/", (req, res, next) => {
 	});
 });
 
-router.use();
+// Routes visible to the logged-in user only
+router.use(auth.checkedUserLogged);
 
 // Add form
 router.get("/new", (req, res) => {
@@ -27,6 +28,7 @@ router.get("/new", (req, res) => {
 // Create article
 router.post("/new", (req, res, next) => {
 	//grab body data
+	req.body.author = req.user.id;
 	req.body.tags = req.body.tags.split(",");
 	console.log(req.body);
 	//save the data to the database
@@ -126,7 +128,7 @@ router.post("/:articleId", (req, res, next) => {
 	Article.findByIdAndUpdate(
 		id,
 		req.body,
-		{ runValidators: true },
+		// { runValidators: true },
 		{ new: true },
 		(err, article) => {
 			if (err) return next(err);

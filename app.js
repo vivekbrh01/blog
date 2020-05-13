@@ -7,6 +7,8 @@ var logger = require("morgan");
 var mongoose = require("mongoose");
 var session = require("express-session");
 var flash = require("connect-flash");
+var auth = require("./middlewares/auth");
+
 var MongoStore = require("connect-mongo")(session);
 
 //Require router files
@@ -46,12 +48,14 @@ app.use(
 	})
 );
 
+// Authentication Middleware (auth.js)
+app.use(auth.userInfo);
 app.use(flash());
 
-app.get('/', (req, res) => {
-  req.flash('message', 'This is a message from the "/" endpoint');
-  res.redirect('/contact');
-});
+// app.get("/", (req, res) => {
+// req.flash("message", 'This is a message from the "/" endpoint');
+// res.redirect("/contact");
+// });
 
 //Routing middlewares
 app.use("/", indexRouter);

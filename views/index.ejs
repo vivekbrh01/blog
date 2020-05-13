@@ -1,13 +1,22 @@
 <% include partials/header %>
 <section class="home-section">
-	<h1 class="home-heading">Home Page</h1>
+	<h1 class="home-heading">
+		Welcome To <br />
+		<span>Sanglat Fenla</span>
+	</h1>
 	<form action="/routes/users">
+		<% if(user) { %>
+		<h3>Hello <%= user.name %></h3>
+		<a href="/users/logout">Logout </a>
+		<a href="/articles/new">Add Article</a>
+		<% } else { %>
 		<a href="/users/signup">
 			<input class="home-input" type="text" value="Click To Sign Up" />
 		</a>
 		<a href="/users/login">
 			<input class="home-input" type="text" value="Click To Login" />
 		</a>
+		<% } %>
 	</form>
 </section>
 <% include partials/footer %>

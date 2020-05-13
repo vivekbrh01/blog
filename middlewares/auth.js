@@ -1,4 +1,4 @@
-var User = require("./routes/users");
+var User = require("../models/user");
 
 exports.checkedUserLogged = (req, res, next) => {
 	console.log("In middleware");
@@ -10,13 +10,16 @@ exports.checkedUserLogged = (req, res, next) => {
 };
 
 exports.userInfo = (req, res, next) => {
-	if (eq.session && req.session.userId) {
-		User.findById(req.session.userId, "name, email", (err, user) => {
-			console.log(err, user);
+	if (req.session && req.session.userId) {
+		User.findById(req.session.userId, "name email", (err, userInfo) => {
+			if (err) return next(err);
+			req.user = userInfo;
+			res.locals.user = userInfo;
 			next();
 		});
 	} else {
-		console.log("In user info", "no user");
+		req.user = null;
+		res.locals.user = null;
 		next();
 	}
 };

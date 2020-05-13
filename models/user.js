@@ -19,6 +19,10 @@ var userSchema = new Schema(
 			minlength: 3,
 			required: true,
 		},
+		avatar: {
+			type: String,
+			default: "Avatar"
+		}
 	},
 	{ timestamps: true }
 );
