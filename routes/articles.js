@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const commentRouter = require("./comments");
 const auth = require("../middlewares/auth");
+var articles = require("../controllers/articles");
 
 //Require Models
 const Article = require("../models/article");
@@ -10,34 +11,17 @@ const Comment = require("../models/comment");
 //Routes
 
 // List all articles form database
-router.get("/", (req, res, next) => {
-	Article.find({}, (err, listArticles) => {
-		if (err) return next(err);
-		res.render("articles", { articles: listArticles });
-	});
-});
+
+router.get("/", articles.listArticles);
 
 // Routes visible to the logged-in user only
 router.use(auth.checkedUserLogged);
 
 // Add form
-router.get("/new", (req, res) => {
-	res.render("articleForm");
-});
+router.get("/new", articles.articleFrom);
 
 // Create article
-router.post("/new", (req, res, next) => {
-	//grab body data
-	req.body.author = req.user.id;
-	req.body.tags = req.body.tags.split(",");
-	console.log(req.body);
-	//save the data to the database
-	Article.create(req.body, (err, data) => {
-		if (err) return next(err);
-		//sending response to the client
-		res.redirect("/articles");
-	});
-});
+router.post("/new", articles.createNewArticle);
 
 // Get a single article form database
 router.get("/:articleId", (req, res, next) => {
@@ -51,10 +35,52 @@ router.get("/:articleId", (req, res, next) => {
 			res.render("articleDetails", { article });
 		});
 });
+// Update Article form
+router.get("/:id/edit", (req, res) => {
+	Article.findById(req.params.id, (err, article) => {
+		if (err) return next(err);
+		res.render("updateArticleForm", { article });
+	});
+});
+
+// Display updated data
+router.post("/:articleId", (req, res, next) => {
+	let id = req.params.articleId;
+	Article.findByIdAndUpdate(
+		id,
+		req.body,
+		// { runValidators: true },
+		{ new: true },
+		(err, article) => {
+			if (err) return next(err);
+			res.render("articleDetails", { article });
+		}
+	);
+});
+
+// Delete a Article
+router.get("/:articleId/delete", (req, res) => {
+	var articleId = req.params.articleId;
+	if (req.user._id.toString() === articleId.author) {
+		Article.findByIdAndDelete(articleId, (err, articleDeleted) => {
+			if (err) return next(err);
+			Comment.deleteMany({ articleId }, (err, deletedMessage) => {
+				if (err) next(err);
+				console.log(err, deletedMessage);
+				res.redirect("/articles");
+			});
+		});
+	} else {
+		console.log("not deleted");
+		req.flash("Warning", "Unauthorised");
+		res.redirect("/articles");
+	}
+});
 
 //Creating a comment
 router.post("/:articleId/comments", (req, res) => {
 	var articleId = req.params.articleId;
+	req.body.author = req.user.id;
 	req.body.articleId = articleId;
 	Comment.create(req.body, (err, createdComment) => {
 		if (err) return next(err);
@@ -114,29 +140,6 @@ router.post("/:articleId/comments/:commentId", (req, res, next) => {
 	);
 });
 
-// Update Article form
-router.get("/:id/edit", (req, res) => {
-	Article.findById(req.params.id, (err, article) => {
-		if (err) return next(err);
-		res.render("updateArticleForm", { article });
-	});
-});
-
-// Display updated data
-router.post("/:articleId", (req, res, next) => {
-	let id = req.params.articleId;
-	Article.findByIdAndUpdate(
-		id,
-		req.body,
-		// { runValidators: true },
-		{ new: true },
-		(err, article) => {
-			if (err) return next(err);
-			res.render("articleDetails", { article });
-		}
-	);
-});
-
 // Likes and Dislikes
 router.get("/:articleId/likes", (req, res, next) => {
 	var articleId = req.params.articleId;
@@ -166,19 +169,6 @@ router.get("/:articleId/dislikes", (req, res, next) => {
 // router.use("/", commentRouter);
 router.post("/:articleId/comments", (req, res) => {
 	console.log(req.body);
-});
-
-// Delete a Article
-router.get("/:articleId/delete", (req, res) => {
-	var articleId = req.params.articleId;
-	Article.findByIdAndDelete(articleId, (err, articleDeleted) => {
-		if (err) return next(err);
-		Comment.deleteMany({ articleId }, (err, deletedMessage) => {
-			if (err) next(err);
-			console.log(err, deletedMessage);
-			res.redirect("/articles");
-		});
-	});
 });
 
 module.exports = router;

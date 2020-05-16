@@ -2,6 +2,10 @@
 <h1>Articles List</h1>
 <% if(articles.length) { %> <% articles.forEach(article => { %>
 <a href="/articles/<%= article.id %>"><h3><%= article.title %></h3> </a>
+<h4><%= article.author.name %></h4>
+<% if(article.author.toString() === user.id.toString() ) { %>
+<a href="/articles/<%= article.id  %>/delete ">Delete</a>
+<% } %>
 <h5><%= article.likes%> <span>likes</span></h5>
 <% }) %> <% } else { %>
 <h4>No articles present</h4>
